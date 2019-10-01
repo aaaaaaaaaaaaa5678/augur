@@ -21,6 +21,12 @@ function* infiniteSequence() {
 }
 const iterator = infiniteSequence();
 
+// From: https://stackoverflow.com/a/29696509
+const ua = window.navigator.userAgent;
+const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+const webkit = !!ua.match(/WebKit/i);
+const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+
 export class WebWorkerConnector extends Connectors.BaseConnector {
   private outstandingRequests: OutstandingRequest[] = [];
   private worker: any;
@@ -32,7 +38,7 @@ export class WebWorkerConnector extends Connectors.BaseConnector {
     this.worker.postMessage({
       id: iterator.next().value,
       method: 'start',
-      params: [ethNodeUrl, account],
+      params: [ethNodeUrl, account, iOSSafari],
       jsonrpc: '2.0',
     });
 

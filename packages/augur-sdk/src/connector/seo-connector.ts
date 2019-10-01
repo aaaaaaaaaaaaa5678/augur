@@ -1,4 +1,3 @@
-import { PouchDBFactory } from '../state/db/AbstractDB';
 import * as Sync from '../state/Sync';
 import { API } from '../state/getter/API';
 import { BaseConnector } from './baseConnector';
@@ -11,7 +10,7 @@ export class SEOConnector extends BaseConnector {
   private events = new Subscriptions(augurEmitter);
 
   async connect(ethNodeUrl: string, account?: string): Promise<any> {
-    this.api = await Sync.start(ethNodeUrl, account, true, PouchDBFactory({ adapter: 'memory' }));
+    this.api = await Sync.start(ethNodeUrl, account, true, { adapter: 'memory' });
   }
 
   async syncUserData(account: string): Promise<any> {
