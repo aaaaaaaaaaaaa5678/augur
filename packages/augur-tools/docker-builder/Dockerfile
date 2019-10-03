@@ -1,3 +1,4 @@
+# populated geth images
 FROM augurproject/dev-node-geth:latest
 
 RUN apk add --no-cache \
