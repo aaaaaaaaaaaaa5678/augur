@@ -370,7 +370,7 @@ jobs:
         in(dependencies.TestAugurCore.result, 'Succeeded', 'Skipped'),
         not(eq(variables['Build.sourceBranch'], 'refs/heads/master')),
         not(eq(variables['Build.sourceBranch'], 'refs/tags')),
-        eq(dependencies.PreFlightCheck.outputs['setVars.JOB_TRIGGER_POP_GETH'], 'true'),
+        eq(dependencies.PreFlightCheck.outputs['setVars.JOB_TRIGGER_POP_GETH'], 'true')
       )
     pool:
       vmImage: 'Ubuntu 16.04'
