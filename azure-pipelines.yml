@@ -365,7 +365,6 @@ jobs:
       and
       (
         in(dependencies.PreFlightCheck.result, 'Succeeded'),
-#       in(dependencies.TestAndLint.result, 'Succeeded', 'Skipped'),
         in(dependencies.TestAugurCore.result, 'Succeeded', 'Skipped'),
         not(eq(variables['Build.sourceBranch'], 'refs/heads/master')),
         not(eq(variables['Build.sourceBranch'], 'refs/tags')),
