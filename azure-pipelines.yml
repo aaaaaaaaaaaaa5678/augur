@@ -51,7 +51,7 @@ jobs:
                 echo "##vso[task.setvariable variable=JOB_TRIGGER_ARTIFACTS;isOutput=true]true"
                 echo "##vso[task.setvariable variable=JOB_TRIGGER_POP_GETH;isOutput=true]true"
               fi
-              if [[ $f == .*augur-tools/docker-builder/* ]]
+              if [[ $f =~ .*augur-tools/docker-builder/* ]]
               then
                 echo "found a docker-builder change: $f"
                 echo "##vso[task.setvariable variable=JOB_TRIGGER_DOCKER_BUILDER;isOutput=true]true"
