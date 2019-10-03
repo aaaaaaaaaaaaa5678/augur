@@ -46,6 +46,8 @@ yarn workspace @augurproject/tools flash run rep-faucet --amount 100000
 yarn workspace @augurproject/tools flash run create-canned-markets-and-orders
 docker cp pop-geth-deploy:/geth geth
 docker stop pop-geth-deploy
+ls -l geth/
+cat geth/networkid
 
 CONTRACT_SHA=$(cd packages/augur-tools/ && node scripts/get-contract-hashes.js)
 DOCKER_BUILDKIT=1 docker build --no-cache -f packages/augur-tools/docker-builder/Dockerfile -t augurproject/"${BUILD_IMAGE}":${CONTRACT_SHA} .
