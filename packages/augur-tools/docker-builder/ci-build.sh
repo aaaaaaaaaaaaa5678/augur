@@ -43,7 +43,7 @@ yarn workspace @augurproject/tools flash run deploy --write-artifacts
 yarn workspace @augurproject/tools build
 yarn workspace @augurproject/tools flash run faucet --amount 10000000000000000000
 yarn workspace @augurproject/tools flash run rep-faucet --amount 100000
-yarn workspace @augurproject/tools flash run create-canned-markets-and-orders
+#yarn workspace @augurproject/tools flash run create-canned-markets-and-orders
 docker cp pop-geth-deploy:/geth geth
 docker stop pop-geth-deploy
 ls -l geth/
