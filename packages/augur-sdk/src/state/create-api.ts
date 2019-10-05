@@ -35,7 +35,7 @@ async function buildDeps(ethNodeUrl: string, account?: string, enableFlexSearch 
   return { augur, blockAndLogStreamerListener, db };
 }
 
-export async function create(ethNodeUrl: string, account?: string, enableFlexSearch = false,  databaseConfiguration:DatabaseConfiguration = {}): Promise<{ api: API, controller: Controller }> {
+export async function create(ethNodeUrl: string, account?: string, enableFlexSearch = false,  databaseConfiguration: DatabaseConfiguration = {}): Promise<{ api: API, controller: Controller }> {
   const { augur, blockAndLogStreamerListener, db } = await buildDeps(ethNodeUrl, account, enableFlexSearch, PouchDBFactory(databaseConfiguration));
 
   const controller = new Controller(augur, db, blockAndLogStreamerListener);
