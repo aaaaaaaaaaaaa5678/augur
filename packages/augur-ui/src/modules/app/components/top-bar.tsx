@@ -26,7 +26,7 @@ interface TopBarProps {
   loginModal: Function;
 }
 
-const TopBar = ({
+const TopBar: React.FC<TopBarProps> = ({
   alertsVisible,
   isLogged,
   stats,
@@ -34,7 +34,7 @@ const TopBar = ({
   updateIsAlertVisible,
   signupModal,
   loginModal,
-}: TopBarProps) => {
+}) => {
   const { availableFunds, frozenFunds, totalFunds, realizedPL } = stats;
 
   return (
@@ -54,7 +54,8 @@ const TopBar = ({
             <LinearPropertyLabelMovement
               showColors
               label={realizedPL.label}
-              numberValue={realizedPL.value}
+              numberValue={+realizedPL.value}
+              value={realizedPL.value}
             />
           </div>
           <div>
