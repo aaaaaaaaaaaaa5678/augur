@@ -8,13 +8,6 @@ import { PriceTimeSeriesData } from 'modules/types';
 
 NoDataToDisplay(Highcharts);
 
-const HIGH_CHART_CONFIG = {
-  ShowNavigator: 350,
-  YLableXposition: -15,
-  YLableYposition: -8,
-  MobileMargin: [30, 0, 0, 0],
-};
-
 interface HighChartsWrapperProps {
   priceTimeSeries: PriceTimeSeriesData[];
   selectedPeriod: number;
@@ -23,7 +16,6 @@ interface HighChartsWrapperProps {
   marketMax: BigNumber;
   marketMin: BigNumber;
   volumeType: string;
-  containerHeight: number;
   isMobile: boolean;
   currentTimeInSeconds: number;
 }
@@ -53,34 +45,30 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
       priceTimeSeries,
       selectedPeriod,
       volumeType,
-      containerHeight,
     } = this.props;
     if (
       JSON.stringify(priceTimeSeries) !==
         JSON.stringify(nextProps.priceTimeSeries) ||
       selectedPeriod !== nextProps.selectedPeriod ||
-      volumeType !== nextProps.volumeType ||
-      containerHeight !== nextProps.containerHeight
+      volumeType !== nextProps.volumeType
     ) {
       this.buildOptions(
         nextProps.priceTimeSeries,
         nextProps.selectedPeriod,
-        nextProps.containerHeight
       );
     }
   }
 
   componentDidMount() {
-    const { priceTimeSeries, selectedPeriod, containerHeight } = this.props;
+    const { priceTimeSeries, selectedPeriod } = this.props;
     if (priceTimeSeries) {
-      this.buildOptions(priceTimeSeries, selectedPeriod, containerHeight);
+      this.buildOptions(priceTimeSeries, selectedPeriod);
     }
   }
 
   buildOptions(
     priceTimeSeries: PriceTimeSeriesData[],
-    selectedPeriod: number,
-    containerHeight: number
+    selectedPeriod: number
   ) {
     const { isMobile, marketMax, marketMin, pricePrecision } = this.props;
     const candlestick = priceTimeSeries.map(price => {
@@ -108,7 +96,6 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
 
     const { range, format, crosshair } = PERIOD_RANGES[selectedPeriod];
 
-    const max = marketMax.toNumber();
     const options = {
       lang: {
         noData: 'No Completed Trades',
@@ -116,7 +103,7 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
       credits: { enabled: false },
       tooltip: { enabled: false },
       scrollbar: { enabled: false },
-      navigator: { enabled: true, height: 20, margin: 12 },
+      navigator: { enabled: false },
       rangeSelector: { enabled: false },
       plotOptions: {
         candlestick: {
@@ -137,27 +124,26 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
         panning: isMobile,
         styledMode: false,
         animation: false,
-        spacing: [15, 0, 0, 0],
+        spacing: [10, 8, 10, 0],
       },
       xAxis: {
         ordinal: false,
-        tickLength: 8,
+        tickLength: 7,
+        gridLineWidth: 1,
+        gridLineColor: null,
         labels: {
           format,
           align: 'center',
-          reserveSpace: true,
         },
         range,
         crosshair: {
           width: 0,
-          snap: true,
           className: Styles.Candlestick_display_none,
           label: {
             enabled: true,
             format: crosshair,
-            align: 'center',
-            y: 0,
-            x: -5,
+            shape: 'square',
+            padding: 2,
           },
         },
       },
@@ -167,27 +153,23 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
           showEmpty: true,
           max: marketMax.toFixed(pricePrecision),
           min: marketMin.toFixed(pricePrecision),
-          tickInterval: marketMax
-            .minus(marketMin)
-            .dividedBy(2)
-            .toNumber(),
-          showFirstLabel: true,
+          showFirstLabel: false,
           showLastLabel: true,
+          offset: 2,
           labels: {
             format: '${value:.2f}',
-            align: 'center',
             style: Styles.Candlestick_display_yLables,
-            x:
-              max > 1
-                ? HIGH_CHART_CONFIG.YLableXposition - 15
-                : HIGH_CHART_CONFIG.YLableXposition,
-            y: HIGH_CHART_CONFIG.YLableYposition,
+            reserveSpace: true,
+            y: 16,
           },
           crosshair: {
             snap: false,
             label: {
               enabled: true,
               format: '${value:.2f}',
+              borderRadius: 5,
+              shape: 'square',
+              padding: 2,
             },
           },
         },
@@ -222,7 +204,6 @@ export default class MarketOutcomeChartsCandlestickHighchart extends Component<
         {
           type: 'column',
           name: 'volume',
-          color: '#0E0E0F',
           data: volume,
           yAxis: 1,
           maxPointWidth: 20,

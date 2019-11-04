@@ -1278,15 +1278,6 @@ export const Indexes = (
   </svg>
 );
 
-export const Commodities = (
-  <svg viewBox="0 0 48 48" fill="none">
-    <path d="M24 46V38" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="square"/>
-    <path d="M10 22H12C15.1826 22 18.2348 23.2643 20.4853 25.5147C22.7357 27.7652 24 30.8174 24 34V38H22C18.8174 38 15.7652 36.7357 13.5147 34.4853C11.2643 32.2348 10 29.1826 10 26V22Z" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="square"/>
-    <path d="M26 38H24V34C24 30.8174 25.2643 27.7652 27.5147 25.5147C29.7652 23.2643 32.8174 22 36 22H38V26C38 29.1826 36.7357 32.2348 34.4853 34.4853C32.2348 36.7357 29.1826 38 26 38V38Z" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="square"/>
-    <path d="M20 12C20.089 10.4649 20.4895 8.96394 21.1772 7.58858C21.8648 6.21322 22.8253 4.99224 24 4C25.1747 4.99224 26.1352 6.21322 26.8228 7.58858C27.5105 8.96394 27.911 10.4649 28 12C27.911 13.5351 27.5105 15.0361 26.8228 16.4114C26.1352 17.7868 25.1747 19.0078 24 20C22.8253 19.0078 21.8648 17.7868 21.1772 16.4114C20.4895 15.0361 20.089 13.5351 20 12V12Z" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="square"/>
-  </svg>
-);
-
 export const Stocks = (
   <svg viewBox="0 0 48 48" fill="none">
     <path d="M28 28H20V46H28V28Z" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="square"/>
@@ -1384,3 +1375,85 @@ export const OpenArrow = (
   </svg>
 );
 
+export const CategoryCrypto = (
+  <svg width="13" height="12" viewBox="0 0 13 12" fill="none">
+    <path d="M2.875 6H3.25C4.1005 6 5.05975 6.46762 5.5 7.125H7C7.75262 7.125 8.5 7.87238 8.5 8.625H5.125" stroke="white" strokeMiterlimit="10"/>
+    <path d="M8.26038 7.875H10.75C12.1094 7.875 12.25 8.625 12.25 8.625L6.88 10.806C6.45288 10.977 5.97288 10.9571 5.56113 10.7513L2.875 9.387" stroke="white" strokeMiterlimit="10"/>
+    <path d="M10 6C10.8284 6 11.5 5.32843 11.5 4.5C11.5 3.67157 10.8284 3 10 3C9.17157 3 8.5 3.67157 8.5 4.5C8.5 5.32843 9.17157 6 10 6Z" stroke="#2AE7A8" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M2.875 5.25H1.375V10.125H2.875V5.25Z" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M5.5 3.75C6.32843 3.75 7 3.07843 7 2.25C7 1.42157 6.32843 0.75 5.5 0.75C4.67157 0.75 4 1.42157 4 2.25C4 3.07843 4.67157 3.75 5.5 3.75Z" stroke="#2AE7A8" strokeMiterlimit="10" strokeLinecap="square"/>
+  </svg>
+);
+
+export const CategoryFinance = (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M10.25 6L9 6L7.5 3.5L5 8.5L3.5 6L1.75 6" stroke="#2AE7A8" strokeMiterlimit="10"/>
+    <path d="M6 11.5C2.96243 11.5 0.500001 9.03757 0.5 6C0.5 2.96243 2.96243 0.500001 6 0.5C9.03757 0.5 11.5 2.96243 11.5 6C11.5 9.03757 9.03757 11.5 6 11.5Z" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+  </svg>
+);
+
+export const CategoryEntertainment = (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M1.5 3.5L10.5 3.5L9.5 11.5L2.5 11.5L1.5 3.5Z" stroke="white" strokeMiterlimit="10"/>
+    <path d="M2.5 2.50006C2.5 2.10223 2.65804 1.7207 2.93934 1.4394C3.22064 1.15809 3.60218 1.00006 4 1.00006C4.25831 1.0016 4.51175 1.07054 4.73525 1.20006C4.8695 0.98579 5.05599 0.809142 5.27721 0.686691C5.49844 0.56424 5.74715 0.5 6 0.5C6.25285 0.5 6.50156 0.56424 6.72279 0.686691C6.94401 0.809142 7.1305 0.98579 7.26475 1.20006C7.48825 1.07054 7.74169 1.0016 8 1.00006C8.39782 1.00006 8.77936 1.15809 9.06066 1.4394C9.34196 1.7207 9.5 2.10223 9.5 2.50006" stroke="#2AE7A8" strokeMiterlimit="10"/>
+    <path d="M7.75 11.5L8.25 3.5" stroke="white" strokeMiterlimit="10"/>
+    <path d="M4.25 11.5L3.75 3.5" stroke="white" strokeMiterlimit="10"/>
+    <path d="M6 3.5L6 11.5" stroke="white" strokeMiterlimit="10"/>
+  </svg>
+);
+
+
+export const CategoryPolitics = (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M9.25 6.75C9.25 4.95 7.8 3.5 6 3.5C4.2 3.5 2.75 4.95 2.75 6.75" stroke="#2AE7A8" strokeMiterlimit="10"/>
+    <path d="M6 3.5L6 1.75" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M11.5 10.25L0.5 10.25" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M2.5 10.25L2.5 4.25L0.5 4.25L0.500001 10.25" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M9.5 10.25L9.5 4.25L11.5 4.25L11.5 10.25" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+    <path d="M9.5 6.75L2.5 6.75" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+  </svg>
+);
+
+export const CategorySports = (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M10 9.77539C9.075 8.80039 8.5 7.47539 8.5 6.00039C8.5 4.52539 9.075 3.22539 10 2.22539" stroke="white" strokeMiterlimit="10"/>
+    <path d="M2 9.77539C2.925 8.80039 3.5 7.47539 3.5 6.00039C3.5 4.52539 2.925 3.22539 2 2.22539" stroke="white" strokeMiterlimit="10"/>
+    <path d="M6 11.5V0.5" stroke="white" strokeMiterlimit="10"/>
+    <path d="M11.5 6H0.5" stroke="#2AE7A8" strokeMiterlimit="10"/>
+    <path d="M6 0.5C9.03757 0.5 11.5 2.96243 11.5 6C11.5 9.03757 9.03757 11.5 6 11.5C2.96243 11.5 0.5 9.03757 0.5 6C0.5 2.96243 2.96243 0.5 6 0.5Z" stroke="white" strokeMiterlimit="10" strokeLinecap="square"/>
+  </svg>
+);
+
+export const TemplateIcon = (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="8" cy="8" r="7.5" fill="#252429" stroke="#3C3B43" />
+    <g clipPath="url(#clip0)">
+      <path
+        d="M8.03031 4.00759L11.4053 4.57009C11.5366 4.59205 11.6558 4.65982 11.7418 4.76137C11.8277 4.86291 11.875 4.99165 11.875 5.12472V9.06222C11.875 10.1065 11.4602 11.108 10.7217 11.8465C9.98331 12.5849 8.98179 12.9997 7.9375 12.9997C6.89321 12.9997 5.89169 12.5849 5.15327 11.8465C4.41484 11.108 4 10.1065 4 9.06222V5.12472C4.00004 4.99165 4.04725 4.86291 4.13324 4.76137C4.21924 4.65982 4.33845 4.59205 4.46969 4.57009L7.84469 4.00759C7.90615 3.99747 7.96885 3.99747 8.03031 4.00759Z"
+        fill="#AEFFF0"
+      />
+      <path
+        d="M7.44596 10.1875C7.38081 10.1875 7.31832 10.1599 7.27225 10.1107L6.04376 8.79988C6.02029 8.7757 6.00157 8.74677 5.9887 8.71478C5.97582 8.6828 5.96904 8.6484 5.96876 8.61359C5.96848 8.57878 5.97469 8.54426 5.98705 8.51204C5.9994 8.47982 6.01764 8.45055 6.04071 8.42593C6.06378 8.40132 6.09122 8.38185 6.12141 8.36867C6.15161 8.35549 6.18396 8.34886 6.21658 8.34916C6.24921 8.34946 6.28145 8.35669 6.31142 8.37043C6.3414 8.38417 6.36851 8.40414 6.39118 8.42918L7.41157 9.51768L9.45529 6.36807C9.47329 6.33887 9.49658 6.31381 9.5238 6.29436C9.55101 6.27491 9.58159 6.26146 9.61374 6.2548C9.64589 6.24814 9.67897 6.24841 9.71102 6.25559C9.74308 6.26277 9.77346 6.27671 9.80039 6.2966C9.82732 6.3165 9.85025 6.34193 9.86784 6.37141C9.88542 6.4009 9.8973 6.43384 9.90279 6.46829C9.90827 6.50274 9.90724 6.53802 9.89975 6.57204C9.89227 6.60607 9.87849 6.63815 9.85922 6.66641L7.64793 10.0745C7.62756 10.1063 7.60089 10.1329 7.56981 10.1524C7.53872 10.1719 7.50399 10.1839 7.46808 10.1875C7.46071 10.1875 7.45334 10.1875 7.44596 10.1875Z"
+        fill="#1B1A1E"
+        stroke="#1B1A1E"
+        strokeWidth="0.3"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <rect
+          width="7.875"
+          height="9"
+          fill="white"
+          transform="translate(4 4)"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+);

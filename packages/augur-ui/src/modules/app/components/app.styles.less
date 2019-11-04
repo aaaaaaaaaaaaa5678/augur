@@ -71,6 +71,10 @@ h6 {
     grid-template-columns: none;
     grid-template-rows: 0 auto;
     margin-left: 0;
+
+    &.TopBarOpen {
+      background: @color-dark-grey;
+    }
   }
 }
 
@@ -97,6 +101,12 @@ h6 {
 
     @media @breakpoint-max-tablet {
       margin: 0 @size-16;
+    }
+  }
+
+  &.ModalShowing {
+    @media @breakpoint-max-tablet {
+      overflow-y: hidden;
     }
   }
 }

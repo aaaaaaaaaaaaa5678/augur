@@ -6,6 +6,11 @@ import {
   MetaMask,
   Portis,
   Trezor,
+  CategorySports,
+  CategoryPolitics,
+  CategoryEntertainment,
+  CategoryFinance,
+  CategoryCrypto,
 } from 'modules/common/icons';
 import { DEFAULT_DERIVATION_PATH } from 'modules/auth/helpers/derivation-path';
 import * as d3 from 'd3-time';
@@ -91,7 +96,7 @@ export const WALLET_TYPE = {
   HARDWARE: 'hardware',
 };
 
-export const SIGNIN_LOADING_TEXT = 'Sit tight - we are loading your account.';
+export const SIGNIN_LOADING_TEXT = 'Sit tight - loading your account.';
 export const SIGNIN_LOADING_TEXT_PORTIS = 'Follow instructions in the Portis window.';
 export const SIGNIN_LOADING_TEXT_FORTMATIC = 'Follow instructions in the Fortmatic window.';
 export const SIGNIN_LOADING_TEXT_TORUS = 'Follow instructions in the Tor.us window.';
@@ -340,8 +345,6 @@ export const TAGS_MAX_LENGTH = 25;
 export const TAGS_MAX_NUM = 2;
 export const RESOURCES_MAX_NUM = 5;
 export const RESOURCES_MAX_LENGTH = 1250;
-export const EXPIRY_SOURCE_GENERIC = 'EXPIRY_SOURCE_GENERIC';
-export const EXPIRY_SOURCE_SPECIFIC = 'EXPIRY_SOURCE_SPECIFIC';
 export const DESIGNATED_REPORTER_SELF = 'DESIGNATED_REPORTER_SELF';
 export const DESIGNATED_REPORTER_SPECIFIC = 'DESIGNATED_REPORTER_SPECIFIC';
 export const INITIAL_LIQUIDITY_DEFAULT = 500;
@@ -479,6 +482,7 @@ export const MODAL_DAI_FAUCET = 'MODAL_DAI_FAUCET';
 export const MODAL_CREATION_HELP = 'MODAL_CREATION_HELP';
 export const MODAL_DEPOSIT = 'MODAL_DEPOSIT';
 export const MODAL_WITHDRAW = 'MODAL_WITHDRAW';
+export const MODAL_MIGRATE_REP = 'MODAL_MIGRATE_REP';
 export const MODAL_TRANSACTIONS = 'MODAL_TRANSACTIONS';
 export const MODAL_UNSIGNED_ORDERS = 'MODAL_UNSIGNED_ORDERS';
 export const MODAL_ADD_FUNDS = 'MODAL_ADD_FUNDS';
@@ -882,6 +886,15 @@ export const POPULAR_CATEGORIES = [
   'finance',
   'crypto',
 ];
+
+export const POPULAR_CATEGORIES_ICONS = [
+  CategorySports,
+  CategoryPolitics,
+  CategoryEntertainment,
+  CategoryFinance,
+  CategoryCrypto,
+];
+
 export const CATEGORIES_MAX = 5;
 
 export enum PAGINATION_VIEW_OPTIONS {
@@ -890,3 +903,10 @@ export enum PAGINATION_VIEW_OPTIONS {
   FIFTY = '50',
   HUNDRED = '100',
 }
+
+export const GWEI_CONVERSION = 1000000000;
+
+export const EVENT_EXPIRATION_TOOLTIP = {
+  header: 'Event expiration',
+  content: 'This date time indicates when the settlement process begins.'
+};

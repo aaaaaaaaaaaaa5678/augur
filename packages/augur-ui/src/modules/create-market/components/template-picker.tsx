@@ -50,8 +50,8 @@ export const TemplatePicker = ({ newMarket, updateNewMarket }) => {
 
   const templateOptions = templates.map((template, index) => {
     return {
-      header: `${getTemplateReadableDescription(template)}?`,
-      description: `Example: ${template.example}?`,
+      header: `${getTemplateReadableDescription(template)}`,
+      description: `Example: ${template.example}`,
       value: index.toString(),
     };
   });
@@ -61,8 +61,9 @@ export const TemplatePicker = ({ newMarket, updateNewMarket }) => {
       <LargeSubheaders header="Choose a template" subheader={subheader} />
       {tertiaryOptions.length > 0 && (
         <div>
-          {tertiaryOptions.map(option => (
+          {tertiaryOptions.map((option, index) => (
             <button
+              key={index}
               className={classNames({
                 [Styles.Selected]: option.value === tertiary.value,
               })}

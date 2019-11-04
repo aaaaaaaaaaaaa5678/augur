@@ -143,7 +143,7 @@ export class ContractCompiler {
         });
         // The flattener removes the pragma experimental line from output so we add it back here
         let result = await this.getCommandOutputFromInput(childProcess, "");
-        if (['IExchange', 'FillOrder', 'ZeroXTrade', 'ZeroXExchange', 'SimulateTrade', 'IZeroXTrade', 'ZeroXTradeToken'].includes(path.parse(filePath).base.replace(".sol", ""))) {
+        if (['IExchange', 'FillOrder', 'ZeroXTrade', 'ZeroXExchange', 'SimulateTrade', 'IZeroXTrade', 'ZeroXTradeToken', 'IAugurCreationDataGetter', 'Augur', 'HotLoading'].includes(path.parse(filePath).base.replace(".sol", ""))) {
             result = "pragma experimental ABIEncoderV2;\n" + result;
         }
         return result;
@@ -151,7 +151,7 @@ export class ContractCompiler {
 
     public async generateCompilerInput(): Promise<CompilerInput> {
         const ignoreFile = function(file: string, stats: fs.Stats): boolean {
-            if (['IAugur', 'IDisputeCrowdsourcer', 'IDisputeWindow', 'IUniverse', 'IMarket', 'IReportingParticipant', 'IReputationToken', 'IOrders', 'IShareToken', 'Order', 'IV2ReputationToken', 'IInitialReporter'].includes(path.parse(file).base.replace(".sol", ""))) return true;
+            if (['IAugur', 'IDisputeCrowdsourcer', 'IDisputeWindow', 'IUniverse', 'IMarket', 'IReportingParticipant', 'IReputationToken', 'IOrders', 'IShareToken', 'Order', 'IV2ReputationToken', 'IInitialReporter', 'IAugurTrading'].includes(path.parse(file).base.replace(".sol", ""))) return true;
             return stats.isFile() && path.extname(file) !== ".sol";
         }
         const filePaths:string[] = await recursiveReadDir(this.configuration.contractSourceRoot, ignoreFile);

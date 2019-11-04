@@ -33,7 +33,7 @@ import {
   BUY,
 } from 'modules/common/constants';
 import { TestNetReputationToken } from '@augurproject/core/build/libraries/GenericContractInterfaces';
-import { CreateMarketData, LiquidityOrder } from 'modules/types';
+import { CreateMarketData, LiquidityOrder, ExtraInfoTemplate } from 'modules/types';
 import { formatBytes32String } from 'ethers/utils';
 import { constructMarketParams } from 'modules/create-market/helpers/construct-market-params';
 
@@ -90,6 +90,10 @@ export async function checkIsKnownUniverse(universeId: string) {
   const { contracts } = augurSdk.get();
   const result = await contracts.augur.isKnownUniverse_(universeId);
   return result;
+}
+
+export async function convertV1ToV2() {
+  return null;
 }
 
 export async function getCurrentBlock() {
@@ -234,6 +238,54 @@ export async function finalizeMarket(marketId: string) {
 export function getDai() {
   const { contracts } = augurSdk.get();
   return contracts.cashFaucet.faucet(new BigNumber('1000000000000000000000'));
+}
+
+export async function uniswapEthForRepRate(wei: BigNumber): Promise<BigNumber> {
+  return new BigNumber(102);
+}
+
+export async function uniswapRepForEthRate(rep: BigNumber): Promise<BigNumber> {
+  return new BigNumber(100);
+}
+
+export async function uniswapEthForDaiRate(wei: BigNumber): Promise<BigNumber> {
+  return new BigNumber(106);
+}
+
+export async function uniswapDaiForEthRate(dai: BigNumber): Promise<BigNumber> {
+  return new BigNumber(104);
+}
+
+export async function uniswapRepForDaiRate(rep: BigNumber): Promise<BigNumber> {
+  return new BigNumber(108);
+}
+
+export async function uniswapDaiForRepRate(dai: BigNumber): Promise<BigNumber> {
+  return new BigNumber(110);
+}
+
+export async function uniswapEthForRep(wei: BigNumber): Promise<BigNumber> {
+  return new BigNumber(103);
+}
+
+export async function uniswapRepForEth(rep: BigNumber): Promise<BigNumber> {
+  return new BigNumber(101);
+}
+
+export async function uniswapEthForDai(wei: BigNumber): Promise<BigNumber> {
+  return new BigNumber(107);
+}
+
+export async function uniswapDaiForEth(dai: BigNumber): Promise<BigNumber> {
+  return new BigNumber(105);
+}
+
+export async function uniswapRepForDai(rep: BigNumber): Promise<BigNumber> {
+  return new BigNumber(109);
+}
+
+export async function uniswapDaiForRep(dai: BigNumber): Promise<BigNumber> {
+  return new BigNumber(111);
 }
 
 export function getRep() {
@@ -399,7 +451,6 @@ function getPayoutNumerators(inputs: doReportDisputeAddStake) {
 export interface CreateNewMarketParams {
   outcomes?: string[];
   scalarDenomination: string;
-  expirySource: string;
   description: string;
   designatedReporterAddress: string;
   minPrice: string;
@@ -413,7 +464,7 @@ export interface CreateNewMarketParams {
   settlementFee: number;
   affiliateFee: number;
   offsetName?: string;
-  backupSource?: string;
+  template?: ExtraInfoTemplate;
 }
 
 export function createMarket(
@@ -446,7 +497,6 @@ export function createMarketRetry(market: CreateMarketData) {
     scalarDenomination: extraInfo._scalarDenomination,
     marketType: market.marketType,
     endTime: market.endTime.timestamp,
-    expirySource: extraInfo.resolutionSource,
     description: market.description,
     designatedReporterAddress: market.txParams._designatedReporterAddress,
     minPrice: market.txParams._prices && market.txParams._prices[0],
@@ -457,7 +507,6 @@ export function createMarketRetry(market: CreateMarketData) {
     settlementFee: market.txParams._feePerCashInAttoCash,
     affiliateFee: market.txParams._affiliateFeeDivisor,
     offsetName: extraInfo.offsetName,
-    backupSource: extraInfo.backupSource,
   };
 
   return createMarket(newMarket, true);
@@ -469,7 +518,11 @@ export async function approveToTrade() {
   const allowance = createBigNumber(99999999999999999999).times(
     TEN_TO_THE_EIGHTEENTH_POWER
   );
-  return contracts.cash.approve(augurContract, allowance);
+  contracts.cash.approve(augurContract, allowance);
+  contracts.shareToken.setApprovalForAll(contracts.fillOrder.address, true);
+  contracts.shareToken.setApprovalForAll(contracts.createOrder.address, true);
+  contracts.cash.approve(contracts.fillOrder.address, allowance);
+  contracts.cash.approve(contracts.createOrder.address, allowance);
 }
 
 export async function getAllowance(account: string): Promise<BigNumber> {
@@ -698,13 +751,13 @@ export async function claimMarketsProceeds(
   const augur = augurSdk.get();
 
   if (markets.length > 1) {
-    augur.contracts.claimTradingProceeds.claimMarketsProceeds(
+    augur.contracts.augurTrading.claimMarketsProceeds(
       markets,
       shareHolder,
       affiliateAddress
     );
   } else {
-    augur.contracts.claimTradingProceeds.claimTradingProceeds(
+    augur.contracts.augurTrading.claimTradingProceeds(
       markets[0],
       shareHolder,
       affiliateAddress

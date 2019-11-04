@@ -4,12 +4,15 @@ import {
   MARKET_TYPE_TEMPLATES,
   MarketCardTemplate,
   TemplateInputType,
+  CHOICE,
+  REQUIRED,
 } from 'modules/create-market/constants';
 import {
   CategoryTemplate,
   Categories,
   Template,
   TemplateInput,
+  ResolutionRules,
 } from 'modules/types';
 import deepClone from 'utils/deep-clone';
 import { Getters } from '@augurproject/sdk';
@@ -17,6 +20,7 @@ import { formatDai } from 'utils/format-number';
 import { convertUnixToFormattedDate } from 'utils/format-date';
 import { NameValuePair } from 'modules/portfolio/types';
 import { TEMPLATES } from 'modules/create-market/templates';
+import { TEMPLATE_VALIDATIONS } from './template-validations';
 
 export const getTemplateRadioCardsMarketTypes = (categories: Categories) => {
   if (!categories || !categories.primary) return MARKET_TYPE_TEMPLATES;
@@ -100,16 +104,16 @@ export const addCategoryStats = (
 
 export const getTemplateCategories = (categories: Categories): string[] => {
   let emptyCats = [];
-  if (!categories || !categories.primary) return Object.keys(TEMPLATES);
+  if (!categories || !categories.primary) return Object.keys(TEMPLATES).sort();
   const primaryCat = TEMPLATES[categories.primary];
   if (!primaryCat) return emptyCats;
   if (!categories.secondary)
-    return primaryCat.children ? Object.keys(primaryCat.children) : [];
+    return primaryCat.children ? Object.keys(primaryCat.children).sort() : [];
   const secondaryCat = primaryCat.children
     ? primaryCat.children[categories.secondary]
     : emptyCats;
   if (!secondaryCat) return emptyCats;
-  return secondaryCat.children ? Object.keys(secondaryCat.children) : [];
+  return secondaryCat.children ? Object.keys(secondaryCat.children).sort() : [];
 };
 
 export const getTemplateCategoriesByMarketType = (
@@ -254,7 +258,8 @@ export const tellIfEditableOutcomes = (inputs: TemplateInput[]) => {
     inputs.filter(
       input =>
         input.type === TemplateInputType.USER_DESCRIPTION_OUTCOME ||
-        input.type === TemplateInputType.SUBSTITUTE_USER_OUTCOME
+        input.type === TemplateInputType.SUBSTITUTE_USER_OUTCOME ||
+        input.type === TemplateInputType.USER_DESCRIPTION_DROPDOWN_OUTCOME
     ).length > 0
   );
 };
@@ -265,7 +270,8 @@ export const createTemplateOutcomes = (inputs: TemplateInput[]) => {
       input =>
         input.type === TemplateInputType.SUBSTITUTE_USER_OUTCOME ||
         input.type === TemplateInputType.ADDED_OUTCOME ||
-        input.type === TemplateInputType.USER_DESCRIPTION_OUTCOME
+        input.type === TemplateInputType.USER_DESCRIPTION_OUTCOME ||
+        input.type === TemplateInputType.USER_DESCRIPTION_DROPDOWN_OUTCOME
     )
     .map((input: TemplateInput) => {
       if (input.type === TemplateInputType.SUBSTITUTE_USER_OUTCOME) {
@@ -331,3 +337,9 @@ export const hasNoTemplateCategoryTertiaryChildren = (
   if (TEMPLATES[category].children[subcategory].children) return false;
   return true;
 };
+
+export const isValidTemplateMarket = (hash: string, marketTitle: string) => {
+  const validation = TEMPLATE_VALIDATIONS[hash];
+  if (!validation || !validation.templateValidation) return false;
+  return !!marketTitle.match(validation.templateValidation);
+}

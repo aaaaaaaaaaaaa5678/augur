@@ -3,7 +3,6 @@ import {
   SCALAR,
   CATEGORICAL,
   YES_NO_OUTCOMES,
-  EXPIRY_SOURCE_GENERIC,
   DESIGNATED_REPORTER_SELF,
   SETTLEMENT_FEE_DEFAULT,
   AFFILIATE_FEE_DEFAULT,
@@ -13,7 +12,6 @@ import {
 import { NewMarket } from 'modules/types';
 import * as icons from 'modules/common/icons';
 import { Popcorn } from 'modules/common/icons';
-
 
 export const INVALID_OUTCOME = 'Market is Invalid';
 
@@ -34,7 +32,6 @@ export const REVIEW = 'review';
 export const FEES_LIQUIDITY = 'feesLiquidity';
 export const FORM_DETAILS = 'formDetails';
 export const TEMPLATE_FORM_DETAILS = 'templateFormDetails';
-
 export const DEFAULT_TICK_SIZE = 0.01;
 
 export const EMPTY_STATE: NewMarket = {
@@ -43,7 +40,6 @@ export const EMPTY_STATE: NewMarket = {
     description: null,
     categories: ['', '', ''],
     designatedReporterAddress: null,
-    expirySourceType: null,
     setEndTime: null,
     hour: null,
     minute: null,
@@ -61,9 +57,6 @@ export const EMPTY_STATE: NewMarket = {
   scalarBigNum: '',
   scalarDenomination: '',
   description: '',
-  expirySourceType: EXPIRY_SOURCE_GENERIC,
-  expirySource: '',
-  backupSource: '',
   designatedReporterType: DESIGNATED_REPORTER_SELF,
   designatedReporterAddress: '',
   endTime: null,
@@ -318,12 +311,6 @@ export const MARKET_SUB_TEMPLATES = {
       icon: icons.Stocks,
     },
     {
-      value: COMMONDITIES,
-      header: COMMONDITIES,
-      description: defaultDescription,
-      icon: icons.Commodities,
-    },
-    {
       value: INDEXES,
       header: INDEXES,
       description: defaultDescription,
@@ -422,7 +409,6 @@ export const END_TIME = 'setEndTime';
 export const CATEGORIES = 'categories';
 export const HOUR = 'hour';
 export const DESIGNATED_REPORTER_ADDRESS = 'designatedReporterAddress';
-export const EXPIRY_SOURCE = 'expirySource';
 
 export const OUTCOMES = 'outcomes';
 
@@ -468,12 +454,6 @@ export const VALIDATION_ATTRIBUTES = {
     checkFilledString: true,
     checkFilledStringMessage: 'Enter a wallet address',
     checkForAddress: true,
-  },
-  [EXPIRY_SOURCE]: {
-    label: EXPIRY_SOURCE,
-    readableName: 'website',
-    checkFilledString: true,
-    checkFilledStringMessage: 'Enter a website',
   },
   [OUTCOMES]: {
     label: OUTCOMES,
@@ -543,9 +523,17 @@ export enum TemplateInputType {
   ADDED_OUTCOME = 'ADDED_OUTCOME',
   USER_DESCRIPTION_OUTCOME = 'USER_DESCRIPTION_TEXT',
   SUBSTITUTE_USER_OUTCOME = 'SUBSTITUTE_USER_OUTCOME',
+  USER_DESCRIPTION_DROPDOWN_OUTCOME = 'USER_DESCRIPTION_DROPDOWN_OUTCOME',
 }
 
 export enum ValidationType {
   WHOLE_NUMBER = 'WHOLE_NUMBER',
   NUMBER = 'NUMBER',
 }
+
+export const ValidationTemplateInputType = {
+  [TemplateInputType.TEXT]: `(.*)`,
+  [TemplateInputType.USER_DESCRIPTION_OUTCOME]: `(.*)`,
+  [TemplateInputType.DATETIME]: `(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]){2}, 20|([0-9]{2}) \d\d:\d\d (AM|PM) \\(UTC 0\\)`,
+  [TemplateInputType.DATEYEAR]: `(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]){2}, 20|([0-9]{2})`
+};

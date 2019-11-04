@@ -10,7 +10,8 @@ import {
   MarketData,
   OrderEventType,
   OrderType,
-  ParsedOrderEventLog
+  ParsedOrderEventLog,
+  ExtraInfoTemplate
 } from "../logs/types";
 import { sortOptions } from "./types";
 import { MarketReportingState } from "../../constants";
@@ -135,8 +136,6 @@ export interface MarketInfo {
   description: string;
   scalarDenomination: string | null;
   details: string | null;
-  resolutionSource: string | null;
-  backupSource: string | null;
   numTicks: string;
   tickSize: string;
   consensus: PayoutNumeratorValue;
@@ -149,6 +148,7 @@ export interface MarketInfo {
   categories: string[];
   noShowBondAmount: string;
   disavowed: boolean;
+  template: ExtraInfoTemplate;
 }
 
 export interface DisputeInfo {
@@ -859,8 +859,6 @@ const extraInfoType = t.intersection([
   }),
   t.partial({
     longDescription: t.string,
-    resolutionSource: t.string,
-    backupSource: t.string,
     _scalarDenomination: t.string,
     categories: t.array(t.string),
     tags: t.array(t.string),
@@ -1017,7 +1015,14 @@ async function getMarketsInfo(
   const orderFilledLogsByMarket = _.groupBy(orderFilledLogs, "market");
 
   return _.map(markets, (marketData) => {
-    const orderFilledLogs = orderFilledLogsByMarket[marketData.market] || [];
+    const orderFilledLogs = (orderFilledLogsByMarket[marketData.market] || []).sort((a, b) => {
+      // Same block, need to sort by logIndex.
+      if(a.blockNumber === b.blockNumber) {
+        return b.logIndex - a.logIndex;
+      }
+
+      return b.blockNumber - a.blockNumber;
+    });
 
     const minPrice = new BigNumber(marketData.prices[0]);
     const maxPrice = new BigNumber(marketData.prices[1]);
@@ -1049,9 +1054,8 @@ async function getMarketsInfo(
     let categories:string[] = [];
     let description = null;
     let details = null;
-    let resolutionSource = null;
-    let backupSource = null;
     let scalarDenomination = null;
+    let template = null;
     if (marketData.extraInfo) {
       const extraInfo = marketData.extraInfo;
       categories = extraInfo.categories ? extraInfo.categories : [];
@@ -1059,13 +1063,10 @@ async function getMarketsInfo(
       details = extraInfo.longDescription
         ? extraInfo.longDescription
         : null;
-      resolutionSource = extraInfo.resolutionSource
-        ? extraInfo.resolutionSource
-        : null;
-      backupSource = extraInfo.backupSource ? extraInfo.backupSource : null;
       scalarDenomination = extraInfo._scalarDenomination
         ? extraInfo._scalarDenomination
         : null;
+      template = extraInfo.template;
     }
     const marketCreatorFeeRate = new BigNumber(
       marketData.feePerCashInAttoCash
@@ -1131,15 +1132,14 @@ async function getMarketsInfo(
       reportingFeeRate: reportingFeeRate.toString(10),
       noShowBondAmount,
       details,
-      resolutionSource,
-      backupSource,
       numTicks: numTicks.toString(10),
       tickSize: tickSize.toString(10),
       consensus,
       transactionHash: marketData.transactionHash,
       outcomes,
       disputeInfo,
-      disavowed: marketData.disavowed
+      disavowed: marketData.disavowed,
+      template,
     };
   });
 }

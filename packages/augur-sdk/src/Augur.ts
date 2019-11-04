@@ -10,6 +10,7 @@ import { ContractInterfaces } from "@augurproject/core";
 import { Contracts } from "./api/Contracts";
 import { CreateYesNoMarketParams, CreateCategoricalMarketParams, CreateScalarMarketParams, Market } from "./api/Market";
 import { Gnosis } from "./api/Gnosis";
+import { HotLoading } from "./api/HotLoading";
 import { EmptyConnector } from "./connector/empty-connector";
 import { Events } from "./api/Events";
 import { Markets } from "./state/getter/Markets";
@@ -50,6 +51,7 @@ export class Augur<TProvider extends Provider = Provider> {
   static syncableFlexSearch: SyncableFlexSearch;
   static connector: BaseConnector;
   readonly liquidity: Liquidity;
+  readonly hotLoading: HotLoading;
 
   private txSuccessCallback: TXStatusCallback;
   private txAwaitingSigningCallback: TXStatusCallback;
@@ -81,6 +83,9 @@ export class Augur<TProvider extends Provider = Provider> {
     { EventName: "TradingProceedsClaimed", indexes: []},
     { EventName: "UniverseCreated", indexes: []},
     { EventName: "UniverseForked", indexes: ["universe"]},
+    { EventName: "TransferSingle", indexes: []},
+    { EventName: "TransferBatch", indexes: []},
+    { EventName: "ShareTokenBalanceChanged", indexes: []},
   ];
 
   constructor(provider: TProvider, dependencies: ContractDependenciesGnosis, networkId: NetworkId, addresses: ContractAddresses, connector: BaseConnector = new EmptyConnector(), gnosisRelay: IGnosisRelayAPI = undefined, enableFlexSearch = false, meshClient: WSClient = undefined, browserMesh: BrowserMesh = undefined) {
@@ -98,9 +103,10 @@ export class Augur<TProvider extends Provider = Provider> {
     this.trade = new Trade(this);
     this.market = new Market(this);
     this.liquidity = new Liquidity(this);
-    this.events = new Events(this.provider, this.addresses.Augur);
+    this.events = new Events(this.provider, this.addresses.Augur, this.addresses.AugurTrading, this.addresses.ShareToken);
     this.universe = new Universe();
     this.gnosis = new Gnosis(this.provider, gnosisRelay, this);
+    this.hotLoading = new HotLoading(this);
     this.zeroX = meshClient && browserMesh ? new ZeroX(this, meshClient, browserMesh) : undefined;
     if (enableFlexSearch && !Augur.syncableFlexSearch) {
       Augur.syncableFlexSearch = new SyncableFlexSearch();
@@ -132,10 +138,6 @@ export class Augur<TProvider extends Provider = Provider> {
 
   async signMessage(message: Arrayish) {
     return this.dependencies.signer.signMessage(message);
-  }
-
-  async signDigest(message: Arrayish) {
-    return this.dependencies.signer.signDigest(message);
   }
 
   async getTimestamp(): Promise<BigNumber> {
@@ -289,12 +291,17 @@ export class Augur<TProvider extends Provider = Provider> {
   getProfitLoss = this.bindTo(Users.getProfitLoss);
   getProfitLossSummary = this.bindTo(Users.getProfitLossSummary);
   getAccountTimeRangedStats = this.bindTo(Users.getAccountTimeRangedStats);
+  getUserAccountData = this.bindTo(Users.getUserAccountData);
   getAccountTransactionHistory = this.bindTo(Accounts.getAccountTransactionHistory);
   getAccountRepStakeSummary = this.bindTo(Accounts.getAccountRepStakeSummary);
   getUserCurrentDisputeStake = this.bindTo(Accounts.getUserCurrentDisputeStake);
   getDisputeWindow = this.bindTo(Universe.getDisputeWindow);
   getPlatformActivityStats = this.bindTo(Platform.getPlatformActivityStats);
   getCategoryStats = this.bindTo(Markets.getCategoryStats);
+
+  async hotloadMarket(marketId: string) {
+    return this.hotLoading.getMarketDataParams({ market: marketId });
+  }
 
   async simulateTrade(params: PlaceTradeDisplayParams): Promise<SimulateTradeData> {
     return this.trade.simulateTrade(params);
